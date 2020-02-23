@@ -2,15 +2,15 @@ import plotly.graph_objects as go
 
 import pandas as pd
 
-df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_us_cities.csv')
+# Read in Medicaid 2017 Opioid Data
+df = pd.read_csv('https://raw.githubusercontent.com/traneric/SacHacksProject2020/master/data/mapdataSorted.csv')
 df.head()
 
-df['text'] = df['name'] + '<br>Aggregate ' + (df['pop']/1e6).astype(str)+' million'
-limits = [(0,2),(3,10),(11,20),(21,50),(50,3000)]
+df['text'] = df['name'] + '<br>Aggregate ' + (df['Total']).astype(str)
+limits = [(0,1),(2,74),(75,205),(206,449),(450,3000)]
 colors = ["royalblue","crimson","lightseagreen","orange","lightgrey"]
 cities = []
-scale = 5000
-
+scale = 4000
 fig = go.Figure()
 
 for i in range(len(limits)):
@@ -22,7 +22,7 @@ for i in range(len(limits)):
         lat = df_sub['lat'],
         text = df_sub['text'],
         marker = dict(
-            size = df_sub['pop']/scale,
+            size = df_sub['Total']/scale,
             color = colors[i],
             line_color='rgb(40,40,40)',
             line_width=0.5,
@@ -38,5 +38,4 @@ fig.update_layout(
             landcolor = 'rgb(217, 217, 217)',
         )
     )
-
 fig.show()
